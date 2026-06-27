@@ -1,0 +1,17 @@
+{
+  "name": "newtons-cradle",
+  "version": "1.0.0",
+  "description": "Newton's Cradle Physics Simulation with Three.js",
+  "type": "module",
+  "scripts": {
+    "dev": "npx vite",
+    "build": "npx vite build",
+    "preview": "npx vite preview"
+  },
+  "dependencies": {
+    "three": "^0.184.0"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
+}
