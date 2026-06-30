@@ -61,14 +61,11 @@ export function updateUI() {
     document.getElementById('ke-val').textContent = ke.toFixed(3) + ' J';
     document.getElementById('pe-val').textContent = pe.toFixed(3) + ' J';
     document.getElementById('te-val').textContent = te.toFixed(3) + ' J';
-    document.getElementById('coll-val').textContent = physics.collisions;
     document.getElementById('mom-val').textContent = momentum.toFixed(3);
     document.getElementById('ke-bar').style.width = keP + '%';
     document.getElementById('pe-bar').style.width = peP + '%';
 }
 
-export function resetCollisionCount() {
-    physics.collisions = 0;
-    document.getElementById('coll-val').textContent = '0';
+export function resetStats() {
     maxEnergy = 0.01;
 }

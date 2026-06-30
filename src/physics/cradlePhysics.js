@@ -10,7 +10,6 @@ export class NewtonPhysics {
         this.damping = DEFAULT_DAMPING;
         this.speedMult = DEFAULT_SPEED_MULT;
         this.gravity = GRAVITY;
-        this.collisions = 0;
         this._maxEnergy = 1;
     }
 
@@ -23,7 +22,6 @@ export class NewtonPhysics {
             p.vel.x = p.vel.y = p.vel.z = 0;
             p.isDragged = false;
         }
-        this.collisions = 0;
     }
 
     step(frameDt) {
