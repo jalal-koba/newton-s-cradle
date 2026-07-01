@@ -4,10 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Newton's Cradle — Physics Simulation</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600&family=JetBrains+Mono:wght@400;600&display=swap"
-        rel="stylesheet">
     <style>
         *,
         *::before,
@@ -23,7 +19,7 @@
             --accent: #4af0ff;
             --accent2: #ff6b6b;
             --text: #e8f4ff;
-            --muted: #6a8aaa;
+            --muted: #ebf2de;
             --panel-radius: 14px;
         }
 
@@ -31,7 +27,6 @@
             margin: 0;
             overflow: hidden;
             background: #060810;
-            font-family: 'Space Grotesk', sans-serif;
             color: var(--text);
             cursor: default;
             user-select: none;
@@ -54,18 +49,15 @@
             border-radius: var(--panel-radius);
             padding: 18px 20px;
             width: 230px;
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
         }
 
         .panel-title {
-            font-size: 10px;
+            font-size: 16px;
             font-weight: 600;
-            letter-spacing: 2.5px;
-            text-transform: uppercase;
+
             color: var(--accent);
             margin-bottom: 14px;
-            padding-bottom: 10px;
+
             border-bottom: 1px solid var(--ui-border);
         }
 
@@ -74,7 +66,7 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 10px;
-            font-size: 12px;
+            font-size: 14px;
             color: var(--muted);
         }
 
@@ -83,8 +75,7 @@
         }
 
         .stat-val {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
+            font-size: 16px;
             font-weight: 600;
             color: var(--text);
             background: rgba(74, 240, 255, 0.07);
@@ -94,20 +85,12 @@
             text-align: right;
         }
 
-        /* Energy bar */
         .energy-bar-wrap {
             margin-top: 14px;
             padding-top: 12px;
             border-top: 1px solid var(--ui-border);
         }
 
-        .energy-bar-label {
-            font-size: 10px;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            color: var(--muted);
-            margin-bottom: 6px;
-        }
 
         .energy-bar {
             height: 6px;
@@ -164,14 +147,13 @@
         }
 
         .ctrl-label span {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
+            font-size: 14px;
             color: var(--accent);
             font-weight: 600;
         }
 
         input[type=range] {
-            -webkit-appearance: none;
+            appearance: none;
             width: 100%;
             height: 4px;
             background: rgba(255, 255, 255, 0.08);
@@ -181,7 +163,6 @@
         }
 
         input[type=range]::-webkit-slider-thumb {
-            -webkit-appearance: none;
             width: 14px;
             height: 14px;
             border-radius: 50%;
@@ -203,32 +184,15 @@
             border: 1px solid rgba(74, 240, 255, 0.3);
             border-radius: 8px;
             color: var(--accent);
-            font-family: 'Space Grotesk', sans-serif;
             font-size: 12px;
             font-weight: 600;
             letter-spacing: 1px;
             cursor: pointer;
-            transition: background 0.15s, border-color 0.15s;
         }
 
         .reset-btn:hover {
             background: rgba(74, 240, 255, 0.18);
             border-color: rgba(74, 240, 255, 0.5);
-        }
-
-
-        #drag-info {
-            position: fixed;
-            bottom: 72px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 20;
-            font-size: 11px;
-            font-family: 'JetBrains Mono', monospace;
-            color: var(--accent);
-            opacity: 0;
-            transition: opacity 0.3s;
-            pointer-events: none;
         }
     </style>
 
@@ -239,10 +203,10 @@
 
     <!-- Stats -->
     <div id="stats-panel">
-        <div class="panel-title">System Monitor</div>
-        <div class="stat-row">KE (حركية) <span class="stat-val" id="ke-val">0.000 J</span></div>
-        <div class="stat-row">PE (وضعية) <span class="stat-val" id="pe-val">0.000 J</span></div>
-        <div class="stat-row">TE (إجمالية) <span class="stat-val" id="te-val">0.000 J</span></div>
+        <div class="panel-title">معلومات عن الحالة </div>
+        <div class="stat-row">KE (الطاقة حركية) <span class="stat-val" id="ke-val">0.000 J</span></div>
+        <div class="stat-row">PE (الطاقة الوضعية) <span class="stat-val" id="pe-val">0.000 J</span></div>
+        <div class="stat-row">TE (الطاقة الكلية) <span class="stat-val" id="te-val">0.000 J</span></div>
         <div class="stat-row">الزخم (kg·m/s) <span class="stat-val" id="mom-val">0.000</span></div>
         <div class="energy-bar-wrap">
             <div class="energy-bar-label">KE</div>
@@ -258,7 +222,7 @@
 
     <!-- Controls -->
     <div id="controls-panel">
-        <div class="panel-title">ضبط المحاكاة</div>
+        <div class="panel-title">تخصيص التجربة</div>
         <div class="ctrl-row">
             <div class="ctrl-label">عدد الكرات <span id="nball-val">5</span></div>
             <input type="range" id="nball-slider" min="2" max="10" step="1" value="5">
@@ -279,11 +243,9 @@
             <div class="ctrl-label">سرعة المحاكاة <span id="speed-val">1.00</span></div>
             <input type="range" id="speed-slider" min="0.1" max="3" step="0.05" value="1.0">
         </div>
-        <button class="reset-btn" id="reset-btn">↺ إعادة ضبط</button>
+        <button class="reset-btn" id="reset-btn"> إعادة ضبط</button>
     </div>
 
-    <div id="hint"><b>اسحب</b> أي كرة أو أكثر • <b>المسافة</b> تحدد الزاوية • تدوير الكاميرا بالماوس</div>
-    <div id="drag-info" id="drag-info"></div>
     <div id="canvas-container"></div>
 
 </body>
