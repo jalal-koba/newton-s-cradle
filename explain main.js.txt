@@ -1,0 +1,45 @@
+Viewed main.js: 1 - 51
+
+ملف[main.js](file:///d:/Users/hisabat/hisabat/src/main.js) هو نقطة الانطلاق الرئيسية (Entry Point) لتطبيق **بندول نيوتن ثلاثي الأبعاد (3D Newton's Cradle)** المطور باستخدام مكتبة **Three.js**.
+
+    يقوم هذا الملف بتهيئة المشهد ثلاثي الأبعاد، وإعداد نظام الفيزياء، وربط عناصر التحكم وتفاعلات السحب والإفلات، وإعداد واجهة المستخدم(UI)، وتفعيل المؤثرات الصوتية عند التصادم، وأخيرًا تشغيل حلقة التحريك(Animation Loop).
+
+إليك شرح تفصيلي لمكونات الملف البرمجية:
+
+### 1. الاستيراد(Imports)
+في البداية، يستورد الملف المكونات والوظائف المساعدة من ملفات أخرى داخل المشروع لتنظيم الكود:
+* ** مكتبة Three.js **: (`import * as THREE`) لإنشاء الرسومات ثلاثية الأبعاد.
+* ** إعدادات المشهد والكاميرا والإضاءة **:
+  * [createScene](file:///d:/Users/hisabat/hisabat/src/scene/createScene.js) لإنشاء المشهد الافتراضي.
+  * [createCamera](file:///d:/Users/hisabat/hisabat/src/scene/createCamera.js) لإعداد كاميرا الرؤية.
+  * [createRenderer](file:///d:/Users/hisabat/hisabat/src/scene/createRenderer.js) و [handleResize](file:///d:/Users/hisabat/hisabat/src/scene/createRenderer.js) لإعداد محرك الرسوم وتحديثه عند تغيير حجم الشاشة.
+  * [createLights](file:///d:/Users/hisabat/hisabat/src/scene/createLights.js) و [createFloor](file:///d:/Users/hisabat/hisabat/src/scene/createLights.js) لإضافة الإضاءة والأرضية للمشهد.
+* ** الفيزياء والمجسمات **:
+  * [NewtonPhysics](file:///d:/Users/hisabat/hisabat/src/physics/cradlePhysics.js) للتحكم في حركة البندول الفيزيائية الحسابية.
+  * [NewtonCradle](file:///d:/Users/hisabat/hisabat/src/objects/createNewtonCradle.js) لبناء وتمثيل مجسم البندول ثلاثي الأبعاد.
+* ** التحكم والتفاعل **:
+  * [setupControls](file:///d:/Users/hisabat/hisabat/src/controls/setupControls.js) لتمكين تحريك الكاميرا والدوران حول المجسم (Orbit Controls).
+  * [DragSystem](file:///d:/Users/hisabat/hisabat/src/controls/dragSystem.js) لتمكين المستخدم من سحب وإفلات كرات البندول بالفأرة أو باللمس.
+* ** الواجهة والصوت **:
+  * [setupUI](file:///d:/Users/hisabat/hisabat/src/ui/setupUI.js)، [updateUI](file:///d:/Users/hisabat/hisabat/src/ui/setupUI.js)، و [resetStats](file:///d:/Users/hisabat/hisabat/src/ui/setupUI.js) لتهيئة وتحديث لوحة الإعدادات والإحصائيات.
+  * [setupAudioListeners](file:///d:/Users/hisabat/hisabat/src/ui/audio.js) و [playClick](file:///d:/Users/hisabat/hisabat/src/ui/audio.js) لإدارة المؤثرات الصوتية.
+  * [setPlayClickCallback](file:///d:/Users/hisabat/hisabat/src/physics/collision.js) لربط حدث التصادم بالصوت.
+
+        ---
+
+### 2. تسلسل التشغيل والتهيئة(Initialization Sequence)
+
+    * ** ربط صوت التصادم(السطر 16):**
+    يقوم باستدعاء`setPlayClickCallback(playClick)` لتحديد الدالة المسؤولة عن إصدار الصوت عند حدوث أي تصادم بين كرات البندول في نظام الفيزياء.
+* ** تهيئة المشهد ثلاثي الأبعاد(الأسطر 18 - 29):**
+    يجلب حاوية العرض`#canvas-container` من ملف الـ HTML، ثم يُنشئ المشهد والكاميرا والمُصير(Renderer).كما يستخدم الـ`PMREMGenerator` لإنشاء بيئة إضاءة وانعكاسات واقعية مبنية على المشهد الافتراضي لجعل مظهر الكرات المعدنية جذاباً ولامعاً.
+* ** محاكاة الفيزياء وبناء البندول(الأسطر 31 - 34):**
+    يُنشئ كائن الفيزياء`NewtonPhysics` ليتعامل مع قوانين الحركة والتصادم، ثم يبني مجسم البندول ثلاثي الأبعاد`NewtonCradle` ويضمه للمشهد والفيزياء.
+* ** إعداد التفاعل والتحكم(الأسطر 36 - 38):**
+    يقوم بتفعيل حركة الكاميرا(`orbit`) وإعداد نظام السحب والافلات`DragSystem` لكي يستطيع المستخدم تفاعل سحب الكرات بقوة لإطلاقها.
+* ** تهيئة واجهة المستخدم والصوت(الأسطر 40 - 44):**
+    يربط لوحة الإعدادات في الواجهة(مثل التحكم بالجاذبية وقوة الارتداد) بكائنات الفيزياء والبندول، ويعيد تصفير الإحصائيات ويهيئ مستمعات الصوت.
+* ** الاستجابة لتغيير حجم الشاشة(الأسطر 46 - 48):**
+    عند قيام المستخدم بتغيير حجم نافذة المتصفح، يُعاد ضبط أبعاد الكاميرا ومحرك الرسوم لتفادي تشوه الصورة.
+* ** بدء حلقة التحريك(الأسطر 50 - 51):**
+    يستدعي`createAnimationLoop` لبدء تحديث المشهد بمعدل 60 إطاراً في الثانية(أو حسب شاشة المستخدم)، مما يضمن استمرارية محاكاة الفيزياء وحركة الكرات وتحديث الأرقام على الشاشة.
