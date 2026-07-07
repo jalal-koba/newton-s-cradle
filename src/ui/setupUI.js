@@ -45,7 +45,7 @@ export function setupUI(physicsRef, newtonCradleRef) {
     });
     document.getElementById('reset-btn').addEventListener('click', () => physics.reset());
 }
-
+ 
 export function updateUI() {
     const { ke, pe } = physics.energy();
     const te = ke + pe;
@@ -53,10 +53,15 @@ export function updateUI() {
     const keP = Math.min(100, (ke / maxEnergy) * 100).toFixed(1);
     const peP = Math.min(100, (pe / maxEnergy) * 100).toFixed(1);
 
-    let momentum = 0;
+    let momentumX = 0;
+    let momentumY = 0;
+
     for (const p of physics.pendulums) {
-        momentum += p.mass * Math.sqrt(p.vel.x * p.vel.x + p.vel.y * p.vel.y);
+        momentumX += p.mass * p.vel.x;
+        momentumY += p.mass * p.vel.y;
     }
+
+    let momentum = Math.sqrt(momentumX * momentumX + momentumY * momentumY);
 
     document.getElementById('ke-val').textContent = ke.toFixed(3) + ' J';
     document.getElementById('pe-val').textContent = pe.toFixed(3) + ' J';
@@ -65,6 +70,7 @@ export function updateUI() {
     document.getElementById('ke-bar').style.width = keP + '%';
     document.getElementById('pe-bar').style.width = peP + '%';
 }
+
 
 export function resetStats() {
     maxEnergy = 0.01;
