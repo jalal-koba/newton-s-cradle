@@ -10,9 +10,9 @@ const _wireQ = new THREE.Quaternion();
 
 export function updateSimulation(newtonCradle) {
     for (const p of newtonCradle.physics.pendulums) {
-        p.mesh.position.set(p.pos.x, p.pos.y, 0);
+        p.mesh.position.set(p.pos.x, p.pos.y, p.pos.z);
 
-        _ballPos.set(p.pos.x, p.pos.y, 0);
+        _ballPos.set(p.pos.x, p.pos.y, p.pos.z);
         for (const wo of p.wireObjs) {
             _anchorTop.set(p.pivot.x, ANCHOR_Y, wo.anchorZ);
             const wireLen = _anchorTop.distanceTo(_ballPos);
